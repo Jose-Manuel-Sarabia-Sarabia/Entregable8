@@ -6,24 +6,19 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          dotnet-version: 6.0.x
+          node-version: '14.x'
 
-      - name: Build and publish to docs folder
-        run: |
-          dotnet build
-          dotnet publish -c Release -o docs
-
-      - name: Publish to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
-          github_token: ${{ secrets.SECRETO }}
-          publish_dir: ./docs
+          branch: gh-pages
+          folder: ./docs # Cambia ./build por el directorio donde estén tus archivos compilados
